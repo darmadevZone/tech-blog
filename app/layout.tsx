@@ -1,3 +1,4 @@
+import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
@@ -18,20 +19,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, "min-h-screen min-w-dvw")}>
-        <Header className="hidden " />
-        {children}
-        <footer>
-          <div className="container sticky bottom-0 h-16">
-            <p>
-              &copy; 2024 Created by{" "}
-              <span className="font-bold underline underline-offset-2">
-                darmaT0o0
-              </span>{" "}
-              Hosting by Vercel
-            </p>
-          </div>
-        </footer>
+      <body className={cn(inter.className, "min-h-screen flex flex-col")}>
+        <Header className="hidden" />
+        <div className="flex-1">{children}</div>
+        <Footer />
       </body>
     </html>
   );

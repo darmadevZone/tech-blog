@@ -1,7 +1,9 @@
 import { getBlogs, type Blog } from "@/action/microcms-client";
+import Link from "next/link";
 
-type BlogProps =
+export type BlogProps =
   | {
+      id: string;
       contents: Blog[];
       totalCount: number;
       offset: number;
@@ -10,7 +12,7 @@ type BlogProps =
   | undefined;
 
 export default async function BlogComponent() {
-  const response: BlogProps = await getBlogs();
+  const response = await getBlogs();
   if (response === undefined) {
     return <div>記事がまだありません</div>;
   }
@@ -24,12 +26,13 @@ export default async function BlogComponent() {
         <div className="grid gap-3 sm:grid-cols-2  md:grid-cols-3">
           {contents ? (
             contents.map((content) => (
-              <div
-                key={content.title}
+              <Link
+                key={content.id}
                 className="p-10 border rounded-lg shadow-lg"
+                href={`/techblog/${content.id}`}
               >
                 <p className="text-center">{content.title}</p>
-              </div>
+              </Link>
             ))
           ) : (
             <div>ブログの記事はまだありません</div>

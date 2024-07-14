@@ -31,3 +31,16 @@ export const getBlogs = async () => {
     console.log(error);
   }
 };
+
+export const getDetailBlog = async (blogId: string) => {
+  try {
+    const data = await microcmsClient.getListDetail<Blog>({
+      endpoint: "blogs",
+      contentId: blogId,
+    });
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
