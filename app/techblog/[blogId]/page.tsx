@@ -1,7 +1,10 @@
-import { getBlogs, getDetailBlog, type Blog } from "@/action/microcms-client";
-import parse from "html-react-parser";
+import type { Blog } from "@/action/action";
+import { getBlogs, getDetailBlog } from "@/action/microcms-client";
+import MarkdownProvider from "@/components/markdown";
 import type { MicroCMSListResponse } from "microcms-js-sdk";
 import { redirect } from "next/navigation";
+import parser from "rich-editor-to-markdown-parser";
+import "zenn-content-css";
 
 interface paramsProps {
   params: {
@@ -27,7 +30,7 @@ export async function generateStaticParams() {
 export default async function TechDetailBlog({ params }: paramsProps) {
   const blogId = params.blogId;
   const detailBlog = await getDetailBlog(blogId);
-  const content = parse(detailBlog?.content as string);
+  const markdown = parser(detailBlog?.content || "", {});
 
   return (
     <div>
@@ -37,7 +40,10 @@ export default async function TechDetailBlog({ params }: paramsProps) {
             <h1 className="text-3xl">{detailBlog.title}</h1>
             <hr className="mt-1s" />
           </div>
-          <div>{content}</div>
+          <div>
+            <p>{`カテゴリー: ${detailBlog.category?.name}`}</p>
+          </div>
+          <MarkdownProvider>{markdown}</MarkdownProvider>
         </div>
       )}
     </div>

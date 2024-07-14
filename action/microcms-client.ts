@@ -1,4 +1,5 @@
 import { createClient } from "microcms-js-sdk";
+import type { Blog, Category } from "./action";
 
 if (!process.env.NEXT_PUBLIC_MICROCMS_SERVICE_DOMAIN) {
   throw new Error("MICROCMS_SERVICE_DOMAIN is required");
@@ -14,18 +15,20 @@ export const microcmsClient = createClient({
   retry: true,
 });
 
-export interface Blog {
-  title: string;
-  content: string;
-  body: string;
-  eyecatch?: string;
-  category?: string;
-}
+export const getCategory = async () => {
+  try {
+    const data = await microcmsClient.get<Category>({ endpoint: "categories" });
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const getBlogs = async () => {
   try {
     const data = await microcmsClient.getList<Blog>({ endpoint: "blogs" });
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (error) {
     console.log(error);
@@ -38,7 +41,7 @@ export const getDetailBlog = async (blogId: string) => {
       endpoint: "blogs",
       contentId: blogId,
     });
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (error) {
     console.log(error);
