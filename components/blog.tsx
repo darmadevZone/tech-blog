@@ -1,4 +1,5 @@
-import { getBlogs, type Blog } from "@/action/microcms-client";
+import type { Blog } from "@/action/action";
+import { getBlogs } from "@/action/microcms-client";
 import Link from "next/link";
 
 export type BlogProps =
